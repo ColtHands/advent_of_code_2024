@@ -26,112 +26,125 @@ fn parse_contents_by_line_by_word_as_integer(path: String) -> Vec<Vec<i32>> {
     return contents_parsed
 }
 
-pub fn day2_pt1() -> i32 {
-    let contents = parse_contents_by_line_by_word_as_integer("inputs/day2.txt".to_string());
+pub fn day3_pt1() -> i32 {
+    let contents = read_file("inputs/day3.txt".to_string());
 
-    let mut safe_count = 0;
-
-    for line in contents {
-        safe_count += if is_line_safe(&line) { 1 } else { 0 };
-    }
-
-    return safe_count;
+    return 1;
 }
 
-pub fn day2_pt2() -> usize {
-    let contents = parse_contents_by_line_by_word_as_integer("inputs/day2.txt".to_string());
 
-    let mut safe_count = 0;
+pub fn day3_pt2() -> i32 {
+    let contents = read_file("inputs/day3.txt".to_string());
 
-    for line in contents {
-        if is_line_safe(&line) {
-            safe_count += 1;
-        } else {
-            for i in 0..line.len() {
-                let mut modified_line = line.clone();
-                modified_line.remove(i);
-                if is_line_safe(&modified_line) {
-                    safe_count += 1;
-                    break;
-                }
-            }
-        }
-    }
-
-    return safe_count;
+    return 1;
 }
 
-fn is_line_safe(line: &Vec<i32>) -> bool {
-    let is_decreasing = line[0] > line[1];
+// pub fn day2_pt1() -> i32 {
+//     let contents = parse_contents_by_line_by_word_as_integer("inputs/day2.txt".to_string());
 
-    for i in 1..line.len() {
-        if (line[i-1] > line[i]) != is_decreasing {
-            return false;
-        }
+//     let mut safe_count = 0;
 
-        let diff = (line[i] - line[i - 1]).abs();
+//     for line in contents {
+//         safe_count += if is_line_safe(&line) { 1 } else { 0 };
+//     }
 
-        if diff < 1 || diff > 3 {
-            return false
-        }
-    }
+//     return safe_count;
+// }
 
-    return true;
-}
+// pub fn day2_pt2() -> usize {
+//     let contents = parse_contents_by_line_by_word_as_integer("inputs/day2.txt".to_string());
 
-fn day1_contents() -> (Vec<i32>, Vec<i32>) {
-    let contents = read_file("inputs/day1.txt".to_string());
-    let contents_parsed = contents
-        .split("\r\n")
-        .map(|line| line.split_whitespace().collect::<Vec<&str>>())
-        .collect::<Vec<Vec<&str>>>();
+//     let mut safe_count = 0;
 
-    let mut arr1 = Vec::new();
-    let mut arr2 = Vec::new();
+//     for line in contents {
+//         if is_line_safe(&line) {
+//             safe_count += 1;
+//         } else {
+//             for i in 0..line.len() {
+//                 let mut modified_line = line.clone();
+//                 modified_line.remove(i);
+//                 if is_line_safe(&modified_line) {
+//                     safe_count += 1;
+//                     break;
+//                 }
+//             }
+//         }
+//     }
 
-    for pair in contents_parsed {
-        arr1.push(pair[0].parse::<i32>().unwrap());
-        arr2.push(pair[1].parse::<i32>().unwrap());
-    }
+//     return safe_count;
+// }
 
-    return (arr1, arr2);
-}
+// fn is_line_safe(line: &Vec<i32>) -> bool {
+//     let is_decreasing = line[0] > line[1];
 
-fn day1_pt2() -> i32 {
-    let mut count_map = HashMap::new();
+//     for i in 1..line.len() {
+//         if (line[i-1] > line[i]) != is_decreasing {
+//             return false;
+//         }
 
-    let (mut arr1, arr2) = day1_contents();
+//         let diff = (line[i] - line[i - 1]).abs();
 
-    for i in 0..arr2.len() {
-        if count_map.contains_key(&arr2[i]) {
-            count_map.insert(arr2[i], count_map[&arr2[i]] + 1);
-        } else {
-            count_map.insert(arr2[i], 1);
-        }
-    }
+//         if diff < 1 || diff > 3 {
+//             return false
+//         }
+//     }
 
-    let mut total: i32 = 0;
+//     return true;
+// }
 
-    for num in arr1.iter_mut() {
-        if count_map.contains_key(&num) {
-            total += *num * count_map[num];
-        }
-    }
+// fn day1_contents() -> (Vec<i32>, Vec<i32>) {
+//     let contents = read_file("inputs/day1.txt".to_string());
+//     let contents_parsed = contents
+//         .split("\r\n")
+//         .map(|line| line.split_whitespace().collect::<Vec<&str>>())
+//         .collect::<Vec<Vec<&str>>>();
 
-    return total;
-}
+//     let mut arr1 = Vec::new();
+//     let mut arr2 = Vec::new();
 
-fn day1_pt1() -> i32 {
-    let (mut arr1, mut arr2) = day1_contents();
+//     for pair in contents_parsed {
+//         arr1.push(pair[0].parse::<i32>().unwrap());
+//         arr2.push(pair[1].parse::<i32>().unwrap());
+//     }
 
-    arr1.sort();
-    arr2.sort();
+//     return (arr1, arr2);
+// }
 
-    let mut diff = 0;
+// fn day1_pt2() -> i32 {
+//     let mut count_map = HashMap::new();
 
-    for i in 0..arr1.len() {
-        diff += (arr1[i] - arr2[i]).abs();
-    }
+//     let (mut arr1, arr2) = day1_contents();
 
-    return diff;
-}
+//     for i in 0..arr2.len() {
+//         if count_map.contains_key(&arr2[i]) {
+//             count_map.insert(arr2[i], count_map[&arr2[i]] + 1);
+//         } else {
+//             count_map.insert(arr2[i], 1);
+//         }
+//     }
+
+//     let mut total: i32 = 0;
+
+//     for num in arr1.iter_mut() {
+//         if count_map.contains_key(&num) {
+//             total += *num * count_map[num];
+//         }
+//     }
+
+//     return total;
+// }
+
+// fn day1_pt1() -> i32 {
+//     let (mut arr1, mut arr2) = day1_contents();
+
+//     arr1.sort();
+//     arr2.sort();
+
+//     let mut diff = 0;
+
+//     for i in 0..arr1.len() {
+//         diff += (arr1[i] - arr2[i]).abs();
+//     }
+
+//     return diff;
+// }
